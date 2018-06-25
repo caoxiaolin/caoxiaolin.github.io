@@ -1,0 +1,23 @@
+---
+layout:     post
+title:      "数据搜索软件初创公司 Elasticsearch BV 已准备上市"
+tags:
+    - elasticsearch
+    - 上市
+---
+
+周四晚间外媒 Recode 引用知情人士的话称，该公司已向美国证券交易委员会（SEC）秘密提交了S1首发上市（IPO）相关文件。
+
+Elastic 创办于 2012 年，开发并提供开源 Elastic Stack（包括 Elasticsearch、Kibana、Beats 和 Logstash）、为 Elastic Stack 提供商业功能的 X-Pack，以及软件即服务产品 Elastic Cloud（包括托管 Elasticsearch、托管应用程序搜索和托管网站搜索）。
+
+该公司以 Elasticsearch 搜索产品而闻名，使用该产品的知名公司包括：思科、eBay、高盛、美国国家宇航局、微软、维基媒体基金会、三星电子和韦里逊等，下载量超过 1 亿人次。 谷歌通过谷歌云平台提供一个完全托管的版本。
+
+Elasticsearch 让公司企业可以搜索庞大的非结构化信息数据库。通过使用机器学习，它可以自动识别异常情况，执行根本原因分析，并减少实时应用的误报。
+
+Elastic 已融资 1.04 亿美元，投资者包括一些风险投资巨头，比如恩熙投资、SV Angel、Index Ventures 和 Benchmark Capital。
+
+Recode 表示，一旦该公司在今年夏末秋初进入华尔街，估值可能高达 15 亿美元至 30 亿美元。
+
+Elastic 上市的消息适逢这个时机：今年越来越多的科技公司（许多被认为是后期阶段的初创公司）已进入公共市场，或宣布计划这么做。云调查公司 SurveyMonkey 是最近一家确认计划于6月18日上市的公司，商业智能初创公司 Domo 将于6月25日上市。
+
+今年成功的 IPO 包括 Dropbox、DocuSign 和 ZScaler 等几家公司。
