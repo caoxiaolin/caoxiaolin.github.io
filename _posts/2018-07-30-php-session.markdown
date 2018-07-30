@@ -144,7 +144,7 @@ Session 都是有生命周期的，这个时间配置在：
 
 PHP 源码：
 
-	static zend_long php_session_gc(zend_bool immediate) /* {{{ */
+	static zend_long php_session_gc(zend_bool immediate)
 	{
 	    int nrand;
 	    zend_long num = -1;
@@ -161,6 +161,6 @@ PHP 源码：
 	        }
 	    }
 	    return num;
-	} /* }}} */
+	}
 
 这里 php_combined_lcg() 是一个随机数发生器, 生成0到1范围的随机数
