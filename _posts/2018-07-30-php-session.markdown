@@ -6,7 +6,7 @@ tags:
     - session
 ---
 
-## 什么是 Session？
+### 什么是 Session？
 
 如今的互联网应用，基本上都是基于 [HTTP协议](https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE) 的，HTTP是建立在有状态的 TCP 协议上的无状态连接。
 
@@ -14,7 +14,7 @@ HTTP 的无状态使得协议具有可伸缩性，可以处理海量请求，但
 
 Session，在计算机中，尤其是在网络应用中，称为“会话控制”。Session 对象存储特定用户会话所需的属性及配置信息。这样，当用户在应用程序的 Web 页之间跳转时，存储在 Session 对象中的变量将不会丢失，而是在整个用户会话中一直存在下去。
 
-## Session 和 Cookie
+### Session 和 Cookie
 
 Session 存储在服务器端，Cookie 存储在客户端。
 
@@ -30,7 +30,7 @@ PHP 中，默认会生成一个 name 为 PHPSESSID 的 Cookie，你可以通过 
 
 ![http请求中的cookie](/img/20180730/php-session-1.png)
 
-## PHP中 Session 的使用
+### PHP中 Session 的使用
 
 PHP 中针对 Session，提供了[一系列的操作函数](https://secure.php.net/manual/zh/book.session.php)，你可以很方便的使用 Session。
 
@@ -52,7 +52,7 @@ PHP 中针对 Session，提供了[一系列的操作函数](https://secure.php.n
 
 	session_destroy();
 
-# PHP中 Session 的存储
+### PHP中 Session 的存储
 
 PHP 中的 Session 默认以文件形式存储，在php.ini中配置如下：
 
@@ -88,7 +88,7 @@ PHP 中的 Session 默认以文件形式存储，在php.ini中配置如下：
 	$23
 	name|s:10:"caoxiaolin";
 
-# PHP 中 Session 的过期及回收
+### PHP 中 Session 的过期及回收
 
 Session 都是有生命周期的，这个时间配置在：
 
@@ -167,4 +167,4 @@ PHP 源码：
 
 概率回收导致 Session 的过期时间是不准确的，默认24分钟，有可能过了24分钟还没有启动 GC，这时 Session 文件不会被删除。
 
-# PHP 中 Session 的安全
+### PHP 中 Session 的安全
