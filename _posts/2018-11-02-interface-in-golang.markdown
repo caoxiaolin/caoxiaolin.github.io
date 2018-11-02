@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "golang中interface"
+title:      "Golang中interface"
 tags:
     - golang
     - interface
@@ -49,11 +49,11 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 ### interface 的具体实现
 
-我们先来看一段代码
+# 我们先来看一段代码
 
 	func main(){
 		var x *int = nil
-        fmt.Printf("x == nil ? %+v\n", x == nil)
+		fmt.Printf("x == nil ? %+v\n", x == nil)
 		fmt.Printf("x == nil ? %+v\n", func(x interface{}) bool{
 			return x == nil
 		}(x))
@@ -66,7 +66,61 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 下面我们从 interface 的底层结构来看这个问题。
 
-一个简单的例子，
+# 接口值
+接口值根据 interface 是否包含有 method，底层实现上用两种 struct 来表示：iface 和 eface。
+
+- eface表示不含 method 的 interface 结构，或者叫 empty interface，下面是其 struct 定义，它包含了两个指针，一个指向值的类型，一个指向具体的值。
+
+	type eface struct {
+		_type *_type
+		data  unsafe.Pointer
+	}
+
+一个接口变量可以存储任意实际值（非接口），只要这个值实现了接口的方法，所以空接口 interface{} 可以存储任意类型。例如上面的例子，我们把 x 赋给了一个空接口 interface{}，通过下面的代码来看一下其具体的 struct：
+
+	type InterfaceStructure struct {
+		pt uintptr // 到值类型的指针
+		pv uintptr // 到值内容的指针
+	}
+
+	// asInterfaceStructure 将一个interface{}转换为InterfaceStructure
+	func asInterfaceStructure(i interface{}) InterfaceStructure {
+		return *(*InterfaceStructure)(unsafe.Pointer(&i))
+	}
+
+	func main(){
+		var x *int = nil
+		fmt.Printf("x == nil ? %+v\n", x == nil)
+		fmt.Printf("x == nil ? %+v\n", func(x interface{}) bool{
+			return x == nil
+		}(x))
+		fmt.Printf("%+v\n", asInterfaceStructure(x))
+		fmt.Printf("%+v\n", asInterfaceStructure(nil))
+	}
+
+上面代码执行后输出：
+
+	x struct: {pt:4790624 pv:0}
+	nil struct: {pt:0 pv:0}
+
+这里我们看到，nil 的类型指针和值指针都是0，而 x 的值是0，但类型不是。
+
+- iface 表示 non-empty interface 的底层实现，下面是其 struct 定义，它包含了两个指针，一个指向 interface table，叫 itable，另一个指向具体的值。
+
+	type iface struct {
+		tab  *itab
+		data unsafe.Pointer
+	}
+
+	type itab struct {
+		inter *interfacetype
+		_type *_type
+		hash  uint32 // copy of _type.hash. Used for type switches.
+		_     [4]byte
+		fun   [1]uintptr // variable sized. fun[0]==0 means _type does not implement inter.
+	}
+
+下面通过一个简单的例子来分析。
 
 	type Stringer interface {
 		 String() string
@@ -93,7 +147,10 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 下面是 interface 的内存组织图
 ![interface](/img/20181102/gointer2.png)
 
-根据 interface 是否包含有 method，底层实现上用两种 struct 来表示：iface 和 eface。eface表示不含 method 的 interface 结构，或者叫 empty interface
+itable 描绘了实际的类型信息及该接口所需要的方法集。
+
+接口值中包含的指针是灰色的，以强调它们是隐式的，而不是直接暴露给 Golang。
+
 
 
 ### 参考
