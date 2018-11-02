@@ -49,7 +49,7 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 ### interface 的具体实现
 
-# 我们先来看一段代码
+我们先来看一段代码
 
 	func main(){
 		var x *int = nil
@@ -66,10 +66,9 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 下面我们从 interface 的底层结构来看这个问题。
 
-# 接口值
-接口值根据 interface 是否包含有 method，底层实现上用两种 struct 来表示：iface 和 eface。
+根据 interface 是否包含有 method，底层实现上用两种 struct 来表示：iface 和 eface。
 
-- eface表示不含 method 的 interface 结构，或者叫 empty interface，下面是其 struct 定义，它包含了两个指针，一个指向值的类型，一个指向具体的值。
+eface表示不含 method 的 interface 结构，或者叫 empty interface，下面是其 struct 定义，它包含了两个指针，一个指向值的类型，一个指向具体的值。
 
 	type eface struct {
 		_type *_type
@@ -105,7 +104,7 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 这里我们看到，nil 的类型指针和值指针都是0，而 x 的值是0，但类型不是。
 
-- iface 表示 non-empty interface 的底层实现，下面是其 struct 定义，它包含了两个指针，一个指向 interface table，叫 itable，另一个指向具体的值。
+iface 表示 non-empty interface 的底层实现，下面是其 struct 定义，它包含了两个指针，一个指向 interface table，叫 itable，另一个指向具体的值。
 
 	type iface struct {
 		tab  *itab
