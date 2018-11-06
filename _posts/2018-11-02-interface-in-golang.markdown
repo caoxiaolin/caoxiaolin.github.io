@@ -49,7 +49,7 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 ### interface 的底层实现
 
-我们先来看一段代码
+我们先来看一段代码 [test-interface1.go](/examples/test-interface1.go)
 
 	func main() {
 		var x *int = nil
@@ -67,7 +67,7 @@ interface 定义了一组方法（方法集），这些方法是抽象的，没�
 
 根据 interface 是否包含有 method，底层实现上用两种 struct 来表示：eface 和 iface。
 
-eface表示不含 method 的 interface 结构，或者叫 empty interface，下面是其 struct 定义，它包含了两个指针，一个指向值的类型，一个指向实际的数据。
+eface表示不含 method 的 interface 结构，即 empty interface，下面是其 struct 定义，它包含了两个指针，一个指向值的类型，一个指向实际的数据。
 
 	type eface struct {
 		_type *_type
@@ -112,18 +112,8 @@ eface表示不含 method 的 interface 结构，或者叫 empty interface，下�
 
 这里我们看到，y 是一个 eface 的 struct，它的 data 是 nil，但 _type 是有值的。而 Golang 中的 nil，_type 和 data 都是 nil。因此判断 interface 和 nil 的时候一定要注意这一点。
 
-eface 运行时通过 iface.convT2E 系列方法来转换。
+eface 运行时通过 iface.convT2E 系列方法来转换，通过下面的汇编过程可以看出。[test-interface2.go](/examples/test-interface2.go)
 
-	[root@localhost ~]# cat test-interface2.go 
-	package main
-
-	import "fmt"
-
-	func main() {
-		x := "test"
-		var y interface{} = x
-		fmt.Printf("%+v\n", y)
-	}
 	[root@localhost ~]# go build -gcflags '-l -N' -o test test-interface2.go
 	[root@localhost ~]# go tool objdump -s "main\.main" test
 	TEXT main.main(SB) /root/test-interface2.go
@@ -156,15 +146,7 @@ iface 表示 non-empty interface 的底层实现，下面是其 struct 定义，
 		data unsafe.Pointer
 	}
 
-	type itab struct {
-		inter *interfacetype
-		_type *_type
-		hash  uint32 // copy of _type.hash. Used for type switches.
-		_     [4]byte
-		fun   [1]uintptr // variable sized. fun[0]==0 means _type does not implement inter.
-	}
-
-下面再通过一段简单的代码来分析。
+下面再通过一段简单的代码来分析 [test-interface3.go](/examples/test-interface3.go)
 
 	type Stringer interface {
 		 String() string
@@ -195,6 +177,41 @@ itable 开头是一些描述类型的元字段，后面是一串方法。注意�
 
 另一个指针指向实际的数据，在这里是一个 b 的拷贝。
 
+iface 运行时通过 iface.convT2I 系列方法来转换。查看上面代码的汇编过程可见。
+
+	[root@localhost ~]# go build -gcflags '-l -N' -o test test-interface3.go
+	[root@localhost ~]# go tool objdump -s "main\.main" test
+	TEXT main.main(SB) /root/test-interface3.go
+	  test-interface3.go:22	0x487e30		64488b0c25f8ffffff		MOVQ FS:0xfffffff8, CX			
+	  test-interface3.go:22	0x487e39		488d4424d8			LEAQ -0x28(SP), AX			
+	  test-interface3.go:22	0x487e3e		483b4110			CMPQ 0x10(CX), AX			
+	  test-interface3.go:22	0x487e42		0f8650010000			JBE 0x487f98				
+	  test-interface3.go:22	0x487e48		4881eca8000000			SUBQ $0xa8, SP				
+	  test-interface3.go:22	0x487e4f		4889ac24a0000000		MOVQ BP, 0xa0(SP)			
+	  test-interface3.go:22	0x487e57		488dac24a0000000		LEAQ 0xa0(SP), BP			
+	  test-interface3.go:23	0x487e5f		48c7442430c8000000		MOVQ $0xc8, 0x30(SP)			
+	  test-interface3.go:24	0x487e68		48c7442438c8000000		MOVQ $0xc8, 0x38(SP)			
+	  test-interface3.go:24	0x487e71		488d05a8330900			LEAQ 0x933a8(IP), AX			
+	  test-interface3.go:24	0x487e78		48890424			MOVQ AX, 0(SP)				
+	  test-interface3.go:24	0x487e7c		488d442438			LEAQ 0x38(SP), AX			
+	  test-interface3.go:24	0x487e81		4889442408			MOVQ AX, 0x8(SP)			
+	  test-interface3.go:24	0x487e86		e8554bf8ff			CALL runtime.convT2I64(SB)		//在这里调用convT2I64
+	  test-interface3.go:24	0x487e8b		488b442410			MOVQ 0x10(SP), AX			
+	  test-interface3.go:24	0x487e90		488b4c2418			MOVQ 0x18(SP), CX			
+	  test-interface3.go:24	0x487e95		4889442448			MOVQ AX, 0x48(SP)			
+	  test-interface3.go:24	0x487e9a		48894c2450			MOVQ CX, 0x50(SP)		
+
+iface 中最重要的就是 itab，它的结构如下：
+
+	type itab struct {
+		inter *interfacetype
+		_type *_type
+		hash  uint32 // copy of _type.hash. Used for type switches.
+		_     [4]byte
+		fun   [1]uintptr // variable sized. fun[0]==0 means _type does not implement inter.
+	}
+
+未完待续 ...
 
 ### 参考
  - [https://research.swtch.com/interfaces](https://research.swtch.com/interfaces)
