@@ -13,7 +13,6 @@ tags:
 通过 maven 发布，需要做以下几个事情：
 
 * 修改 pom.xml 配置文件，修改或增加外部 Tomcat 部署依赖及 packaging 标签
-
 ```
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -25,8 +24,8 @@ tags:
 ```
 
 * 修改 DemoApplication.java
-
-<pre><code>import org.springframework.boot.SpringApplication;
+```
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -42,10 +41,9 @@ public class DemoApplication extends SpringBootServletInitializer {
             return builder.sources(DemoApplication.class);
     }
 }
-</code></pre>
+```
 
 * maven 发布
-
 <pre><code>mvn clean package</code></pre>
 
 * 将 target 目录生成的 war 包拷贝到 Tomcat 的 webapps 目录，重启 Tomcat
