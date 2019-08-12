@@ -14,13 +14,14 @@ tags:
 
 * 修改 pom.xml 配置文件，修改或增加外部 Tomcat 部署依赖及 packaging 标签
 
-><dependency>
->    <groupId>org.springframework.boot</groupId>
->    <artifactId>spring-boot-starter-tomcat</artifactId>
->    <scope>provided</scope>
-> </dependency>
+<pre><code><dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <scope>provided</scope>
+ </dependency>
 
-> <packaging>war</packaging>
+ <packaging>war</packaging>
+</code></pre>
 
 * 修改 DemoApplication.java
 
@@ -44,7 +45,7 @@ public class DemoApplication extends SpringBootServletInitializer {
 
 * maven 发布
 
-> mvn clean package
+<pre><code>mvn clean package</code></pre>
 
 * 将 target 目录生成的 war 包拷贝到 Tomcat 的 webapps 目录，重启 Tomcat
 
