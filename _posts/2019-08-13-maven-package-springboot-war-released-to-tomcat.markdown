@@ -24,7 +24,7 @@ tags:
 ```
 
 * 修改 DemoApplication.java
-```
+<pre><code>
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -41,7 +41,7 @@ public class DemoApplication extends SpringBootServletInitializer {
             return builder.sources(DemoApplication.class);
     }
 }
-```
+</code></pre>
 
 * maven 发布
 <pre><code>mvn clean package</code></pre>
