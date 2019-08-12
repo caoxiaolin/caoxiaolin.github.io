@@ -14,14 +14,15 @@ tags:
 
 * 修改 pom.xml 配置文件，修改或增加外部 Tomcat 部署依赖及 packaging 标签
 
-<pre><code><dependency>
+```
+<dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-tomcat</artifactId>
     <scope>provided</scope>
  </dependency>
 
  <packaging>war</packaging>
-</code></pre>
+```
 
 * 修改 DemoApplication.java
 
