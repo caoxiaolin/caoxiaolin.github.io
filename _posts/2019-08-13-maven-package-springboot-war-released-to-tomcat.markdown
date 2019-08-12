@@ -2,6 +2,7 @@
 layout:     post
 title:      "Maven打包SpringBoot项目到war包发布到tomcat"
 tags:
+    - spring boot
     - maven
     - war
     - tomcat
