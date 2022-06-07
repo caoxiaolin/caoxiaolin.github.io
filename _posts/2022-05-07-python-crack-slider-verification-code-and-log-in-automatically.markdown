@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "python破解滑块验证码并自动登录"
+title:      "python破解京东滑块验证码并自动登录"
 tags:
     - python
     - slider verification code
@@ -9,6 +9,7 @@ tags:
 ---
 ### 滑块验证码
 
+```python
 import random
 import time
 import base64
@@ -259,3 +260,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+```
