@@ -199,14 +199,17 @@ def get_copy_text(operate_open_close=False):
             time.sleep(2)
             pass
             if err.winerror == 5:  # Access Denied
+            
                 # wait on clipboard because something else has it. we're waiting a
                 
                 # random amount of time before we try again so we don't collide again
                 
                 pass
             elif err.winerror == 1418:  # doesn't have board open
+            
                 pass
             elif err.winerror == 0:  # open failure
+
                 pass
             else:
                 print('ERROR in Clipboard section of readcomments: %s' % err)
@@ -221,7 +224,6 @@ def openMainPage(url=''):
     pg.click()
     pyperclip.copy(url)
     pg.hotkey('ctrl', 'v')
-    #pg.write(url, 0.1)
     pg.hotkey('enter')
 
 def get_cookies():
