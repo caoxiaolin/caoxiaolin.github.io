@@ -117,7 +117,7 @@ def move_huakuai():
         save_huakuai("small.png", img2)
 
         #获取图片大小，主要是宽度，影响滑块移动距离
-
+        
         pg.hotkey('ctrl', 'shift', 'k')
         time.sleep(0.5)
 
@@ -139,7 +139,10 @@ def move_huakuai():
         
         pg.hotkey('ctrl', 'shift', 'e')
         pix = detect_displacement("small.png", "big.png")
-        pix = pix * int(w) / 360  #缩放
+        # 图片缩放
+        
+        pix = pix * int(w) / 360
+        
         pg.moveTo(948+gr(3), 398+gr(10), 0.1)
         pg.drag(pix, 0, 1.5 + gr(1), pg.easeOutElastic)
         time.sleep(1)
@@ -155,21 +158,23 @@ def save_huakuai(filename, b64data):
         f.write(base64.b64decode(data))
 
 def _tran_canny(image):
-    """滑块处理，消除噪声"""
     image = cv2.GaussianBlur(image, (3, 3), 0)
     return cv2.Canny(image, 50, 150)
 
-
+"""检测滑块位置，返回坐标"""
 def detect_displacement(img_slider_path, image_background_path):
-    """检测滑块位置，返回坐标"""
-    # # 参数0是灰度模式
+    # 参数0是灰度模式
+    
     image = cv2.imread(img_slider_path, 0)
     template = cv2.imread(image_background_path, 0)
     # 寻找最佳匹配
+    
     res = cv2.matchTemplate(_tran_canny(image), _tran_canny(template), cv2.TM_CCOEFF_NORMED)
     # 最⼩值，最⼤值，并得到最⼩值, 最⼤值的索引
+    
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
     top_left = max_loc[0]  # 横坐标
+    
     return top_left
 
 def get_copy_text(operate_open_close=False):
@@ -181,21 +186,23 @@ def get_copy_text(operate_open_close=False):
             if not operate_open_close:
                 wc.OpenClipboard()
             t = wc.GetClipboardData()
-            #print('data')
-            #print(t)
             if not operate_open_close:
                 wc.CloseClipboard()
             return t
         except Exception as err:
             # If access is denied, that means that the clipboard is in use.
+            
             # Keep trying until it's available.
+            
             print(err)
             print(f'count:{count}')
             time.sleep(2)
             pass
             if err.winerror == 5:  # Access Denied
                 # wait on clipboard because something else has it. we're waiting a
+                
                 # random amount of time before we try again so we don't collide again
+                
                 pass
             elif err.winerror == 1418:  # doesn't have board open
                 pass
