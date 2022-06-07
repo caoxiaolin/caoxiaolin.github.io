@@ -116,7 +116,7 @@ def move_huakuai():
         save_huakuai("big.png", img1)
         save_huakuai("small.png", img2)
 
-        #获取图片大小，主要是宽度，影响滑块移动距离
+        ##获取图片大小，主要是宽度，影响滑块移动距离
         pg.hotkey('ctrl', 'shift', 'k')
         time.sleep(0.5)
 
