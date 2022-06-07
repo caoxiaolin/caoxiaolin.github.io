@@ -153,7 +153,6 @@ def move_huakuai():
 def save_huakuai(filename, b64data):
     b64data = b64data.replace('"', '')
     data = b64data.split(';base64,')[1]
-    #print(data)
     with open(filename, "wb") as f:
         f.write(base64.b64decode(data))
 
