@@ -1,0 +1,18 @@
+---
+layout:     post
+title:      "lang.ClassNotFoundException: com.sun.tools.javac.code.TypeTags"
+tags:
+    - TypeTags
+---
+
+mvn打包报错：
+
+    lang.ClassNotFoundException: com.sun.tools.javac.code.TypeTags
+
+原因是lombok版本过低的问题，改用高版本
+
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.4</version>
+    </dependency>
