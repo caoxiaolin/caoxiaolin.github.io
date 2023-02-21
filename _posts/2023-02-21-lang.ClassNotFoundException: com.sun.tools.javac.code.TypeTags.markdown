@@ -9,7 +9,7 @@ mvn打包报错：
 
     lang.ClassNotFoundException: com.sun.tools.javac.code.TypeTags
 
-原因是lombok版本过低的问题，改用高版本
+原因是lombok版本过低，改用高版本即可
 
     <dependency>
         <groupId>org.projectlombok</groupId>
