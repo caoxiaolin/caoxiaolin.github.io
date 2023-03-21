@@ -15,16 +15,16 @@ EPEL(Extra Packages for Enterprise Linux )即企业版Linux的扩展包，是一
 
 安装epel
 
-yum install epel-release
+    yum install epel-release
 
 清理本地缓存
 
-yum clean all
+    yum clean all
 
 更新
 
-yum update
+    yum update
 
 生成缓存
 
-yum makecache
+    yum makecache
